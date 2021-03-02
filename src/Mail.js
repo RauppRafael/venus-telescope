@@ -1,3 +1,4 @@
+const logger = require('./Logger')
 const mailgun = require('mailgun-js')({
     apiKey: process.env.MAILGUN_API_KEY,
     domain: process.env.MAILGUN_DOMAIN,
@@ -13,7 +14,7 @@ module.exports = {
         }
 
         mailgun.messages().send(data, (error) => {
-            if (error) console.log(error)
+            if (error) logger.error(error)
         })
     },
 }

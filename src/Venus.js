@@ -1,6 +1,6 @@
 const axios = require('axios')
 const mail = require('./Mail')
-const moment = require('moment')
+const logger = require('./Logger')
 const { throttle } = require('throttle-debounce')
 
 class Venus {
@@ -53,7 +53,7 @@ class Venus {
                 + 'To check it out access <a href="https://app.venus.io">app.venus.io</a>',
         })
 
-        console.log(`${ moment().toString() } | Venus notification sent`)
+        logger.log('Venus notification sent')
     }
 }
 

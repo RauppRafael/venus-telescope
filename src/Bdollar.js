@@ -1,6 +1,6 @@
 const axios = require('axios')
+const logger = require('./Logger')
 const mail = require('./Mail')
-const moment = require('moment')
 const { throttle } = require('throttle-debounce')
 
 class Bdollar {
@@ -37,7 +37,7 @@ class Bdollar {
             message: `Current bDollar price is $${ price.toFixed(2) }.`,
         })
 
-        console.log(`${ moment().toString() } | Bdollar notification sent`)
+        logger.log('Bdollar notification sent')
     }
 }
 

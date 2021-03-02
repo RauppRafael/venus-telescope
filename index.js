@@ -1,7 +1,8 @@
 require('dotenv').config()
-const moment = require('moment')
-const venus = require('./src/Venus')
+
 const bdollar = require('./src/Bdollar')
+const venus = require('./src/Venus')
+const logger = require('./src/Logger')
 
 const main = async () => {
     try {
@@ -12,11 +13,11 @@ const main = async () => {
             dangerEmail: process.env.MAILGUN_DANGER_EMAIL,
         })
 
-        console.log(`${ moment().toString() } | Current collateral usage is ${ (usage * 100).toFixed(2) }%`)
+        logger.log(`Current collateral usage is ${ (usage * 100).toFixed(2) }%`)
     }
     catch (e) {
         // TODO send email
-        console.log(e)
+        throw e
     }
 
     try {
@@ -26,12 +27,14 @@ const main = async () => {
             notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
         })
 
-        console.log(`${ moment().toString() } | Current BDO price is $${ price.toFixed(3) }`)
+        logger.log(`Current BDO price is $${ price.toFixed(3) }`)
     }
     catch (e) {
         // TODO send email
-        console.log(e)
+        throw e
     }
+
+    setTimeout(main, (60000 * 5) + 1000)
 }
 
-setInterval(main, (60000 * 5) + 1000)
+main()
