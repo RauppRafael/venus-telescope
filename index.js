@@ -1,16 +1,19 @@
-require('dotenv').config();
-const axios = require('axios');
+require('dotenv').config()
 
-const main = async function() {
-    const url = process.env.YIELDWATCH_API_URL + process.env.WALLET_ADDRESS + '?platforms=venus'
-    const venus = (await axios(url)).data.result.Venus
-    const values = venus.supplyBorrowData.totalUSDValues
+const mail = require('./src/Mail')
+const venus = require('./src/Venus')
 
-    const limit = values.supply * 0.6
+const main = async () => {
+    const usage = await venus.getBorrowUsage()
+    const subject = (usage * 100).toFixed(2) + '% is your current collateral usage'
 
-    console.log('limit', limit)
-    console.log('borrowed', values.borrow)
-    console.log('used', 100 * values.borrow / limit)
+    mail.send({
+        to: process.env.MAILGUN_DANGER_EMAIL || process.env.MAILGUN_WARNING_EMAIL,
+        subject,
+        message: subject
+            + '<br><br>'
+            + 'To check it out access <a href="https://app.venus.io">app.venus.io</a>',
+    })
 }
 
 main()
