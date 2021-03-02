@@ -1,0 +1,15 @@
+{
+  "name": "venus-telescope",
+  "version": "1.0.0",
+  "description": "Helper for the Venus DeFi platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raupp",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0"
+  }
+}
