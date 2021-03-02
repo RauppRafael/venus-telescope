@@ -18,23 +18,22 @@ class Venus {
         const danger = usage < 0.50 || usage > 0.8
         const notify = usage < 0.55 || usage > 0.73
 
-        if (!danger && !notify) return false
-
         if (danger) {
             this.throttleSendDangerEmail({ usage, to: dangerEmail })
-
-            return true
+        }
+        else if (notify) {
+            this.throttleSendNotificationEmail({ usage, to: notificationEmail })
         }
 
-        this.throttleSendNotificationEmail({ usage, to: notificationEmail })
-
-        return true
+        return usage
     }
 
     async account({ wallet, yieldWatchApiUrl }) {
-        const url = yieldWatchApiUrl + wallet + '?platforms=venus'
+        const response = await axios(yieldWatchApiUrl + wallet + '?platforms=venus')
 
-        return (await axios(url)).data.result.Venus
+        return response.data.result.Venus
+            ? response.data.result.Venus
+            : console.log(response)
     }
 
     async getBorrowUsage({ account }) {
@@ -54,7 +53,7 @@ class Venus {
                 + 'To check it out access <a href="https://app.venus.io">app.venus.io</a>',
         })
 
-        console.log(`${ moment().toString() } | Bdollar notification sent`)
+        console.log(`${ moment().toString() } | Venus notification sent`)
     }
 }
 

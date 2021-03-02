@@ -13,14 +13,13 @@ class Bdollar {
     async handle({ apiUrl, priceThreshold, notificationEmail }) {
         const price = await this.price({ apiUrl })
 
-        if (price > priceThreshold) return false
+        if (price < priceThreshold)
+            this.throttleSendEmail({
+                price,
+                notificationEmail,
+            })
 
-        this.throttleSendEmail({
-            price,
-            notificationEmail,
-        })
-
-        return true
+        return price
     }
 
     async price({ apiUrl }) {
