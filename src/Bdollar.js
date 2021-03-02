@@ -1,20 +1,26 @@
 const axios = require('axios')
-const moment = require('moment')
 const mail = require('./Mail')
+const moment = require('moment')
+const { throttle } = require('throttle-debounce')
 
 class Bdollar {
     constructor() {
-        this.lastNotificationMoment = moment().subtract(1, 'days')
+        const minute = 60000
+
+        this.throttleSendEmail = throttle(minute * 60, true, this.sendEmail)
     }
 
     async handle({ apiUrl, priceThreshold, notificationEmail }) {
         const price = await this.price({ apiUrl })
 
-        if (await this.shouldNotify({ price, priceThreshold }))
-            await this.sendNotification({
-                price,
-                notificationEmail,
-            })
+        if (price > priceThreshold) return false
+
+        this.throttleSendEmail({
+            price,
+            notificationEmail,
+        })
+
+        return true
     }
 
     async price({ apiUrl }) {
@@ -25,21 +31,14 @@ class Bdollar {
         })).data.data.price
     }
 
-    async shouldNotify({ price, priceThreshold }) {
-        return price < priceThreshold
-            && moment()
-                .subtract(1, 'hours')
-                .isSameOrAfter(this.lastNotificationMoment)
-    }
-
-    async sendNotification({ price, notificationEmail }) {
-        this.lastNotificationMoment = moment()
-
+    async sendEmail({ price, notificationEmail }) {
         await mail.send({
             to: notificationEmail,
             subject: `$${ price.toFixed(3) } per BDO.`,
             message: `Current bDollar price is $${ price.toFixed(2) }.`,
         })
+
+        console.log(`${ moment().toString() } | Bdollar notification sent`)
     }
 }
 

@@ -11,8 +11,6 @@ const main = async () => {
             notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
             dangerEmail: process.env.MAILGUN_DANGER_EMAIL,
         })
-
-        console.log('Venus handled')
     }
     catch (e) {
         console.log(e)
@@ -24,14 +22,10 @@ const main = async () => {
             priceThreshold: process.env.BDOLLAR_PRICE_THRESHOLD,
             notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
         })
-
-        console.log('Bdollar handled')
     }
     catch (e) {
         console.log(e)
     }
-
 }
 
-main()
-// setInterval(main, 60000)
+setInterval(main, 60000)
