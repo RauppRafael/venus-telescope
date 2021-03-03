@@ -3,6 +3,7 @@ require('dotenv').config()
 const bdollar = require('./src/Bdollar')
 const venus = require('./src/Venus')
 const logger = require('./src/Logger')
+const stringToBoolean = require('./src/helpers/string-to-boolean')
 
 const main = async () => {
     try {
@@ -20,18 +21,20 @@ const main = async () => {
         throw e
     }
 
-    try {
-        const price = await bdollar.handle({
-            apiUrl: process.env.BDOLLAR_API_URL,
-            priceThreshold: process.env.BDOLLAR_PRICE_THRESHOLD,
-            notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
-        })
+    if (stringToBoolean(process.env.BDOLLAR_ENABLED)){
+        try {
+            const price = await bdollar.handle({
+                apiUrl: process.env.BDOLLAR_API_URL,
+                priceThreshold: process.env.BDOLLAR_PRICE_THRESHOLD,
+                notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
+            })
 
-        logger.log(`Current BDO price is $${ price.toFixed(3) }`)
-    }
-    catch (e) {
-        // TODO send email
-        throw e
+            logger.log(`Current BDO price is $${ price.toFixed(3) }`)
+        }
+        catch (e) {
+            // TODO send email
+            throw e
+        }
     }
 
     setTimeout(main, (60000 * 5) + 1000)
