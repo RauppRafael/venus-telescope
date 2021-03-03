@@ -10,8 +10,8 @@ class Bdollar {
         this.throttleSendEmail = throttle(minute * 60, true, this.sendEmail)
     }
 
-    async handle({ apiUrl, priceThreshold, notificationEmail }) {
-        const price = await this.price({ apiUrl })
+    async handle({ priceThreshold, notificationEmail }) {
+        const price = await this.price()
 
         if (price < priceThreshold)
             this.throttleSendEmail({
@@ -22,8 +22,8 @@ class Bdollar {
         return price
     }
 
-    async price({ apiUrl }) {
-        return (await axios(apiUrl, {
+    async price() {
+        return (await axios('https://api.bdollar.fi/api/bdollar/get-token-info', {
             params: {
                 token: 'BDO',
             },

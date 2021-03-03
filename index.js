@@ -17,7 +17,6 @@ const sendErrorEmail = async (error) => {
 const main = async () => {
     try {
         const usage = await venus.handle({
-            yieldWatchApiUrl: process.env.YIELDWATCH_API_URL,
             wallet: process.env.WALLET_ADDRESS,
             notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
             dangerEmail: process.env.MAILGUN_DANGER_EMAIL,
@@ -34,7 +33,6 @@ const main = async () => {
     if (stringToBoolean(process.env.BDOLLAR_ENABLED)) {
         try {
             const price = await bdollar.handle({
-                apiUrl: process.env.BDOLLAR_API_URL,
                 priceThreshold: process.env.BDOLLAR_PRICE_THRESHOLD,
                 notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
             })

@@ -11,8 +11,8 @@ class Venus {
         this.throttleSendNotificationEmail = throttle(minute * 60, true, this.sendEmail)
     }
 
-    async handle({ wallet, yieldWatchApiUrl, notificationEmail, dangerEmail }) {
-        const account = await this.account({ wallet, yieldWatchApiUrl })
+    async handle({ wallet, notificationEmail, dangerEmail }) {
+        const account = await this.account({ wallet })
         const usage = await this.getBorrowUsage({ account })
 
         const danger = usage < 0.50 || usage > 0.8
@@ -28,8 +28,12 @@ class Venus {
         return usage
     }
 
-    async account({ wallet, yieldWatchApiUrl }) {
-        const response = await axios(yieldWatchApiUrl + wallet + '?platforms=venus')
+    async account({ wallet }) {
+        const response = await axios(`https://yieldwatch.net/api/all/${ wallet }`, {
+            params: {
+                platforms: 'venus',
+            },
+        })
 
         return response.data.result.Venus
             ? response.data.result.Venus
