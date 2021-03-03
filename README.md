@@ -31,29 +31,33 @@ and bypass the "do not disturb" functionality.
 ``Address``  
 The address you want to be monitored
 
-#### VENUS_NOTIFICATION_DANGER_LOW
+#### VENUS_USAGE_DANGER_LOW
 
 ``Number``  
-This is the low threshold for sending notifications to the danger email
-(max. 1 every 5 minutes).
+Value must be between ``0`` and ``1``  
+This is the low usage percentage threshold for sending notifications
+to the danger email (max. 1 every 5 minutes).  
 
-#### VENUS_NOTIFICATION_NOTIFICATION_LOW
+#### VENUS_USAGE_LOW
 
-``Number``  
-This is the low threshold for sending notifications to the notifications email
-(max. 1 every hour).
+``Number``   
+Value must be between ``0`` and ``1``   
+This is the low usage percentage threshold for sending notifications
+to the notifications email (max. 1 every hour).
 
-#### VENUS_NOTIFICATION_NOTIFICATION_HIGH
+#### VENUS_USAGE_HIGH
 
-``Number``  
-This is the high threshold for sending notifications to the notifications email
-(max. 1 every hour).
+``Number``   
+Value must be between ``0`` and ``1``   
+This is the high usage percentage threshold for sending notifications
+to the notifications email (max. 1 every hour).
 
-#### VENUS_NOTIFICATION_DANGER_HIGH
+#### VENUS_USAGE_DANGER_HIGH
 
-``Number``  
-This is the high threshold for sending notifications to the danger email
-(max. 1 every 5 minutes).
+``Number``   
+Value must be between ``0`` and ``1``   
+This is the high usage percentage threshold for sending notifications
+to the danger email (max. 1 every 5 minutes).
 
 #### BDOLLAR_ENABLED
 

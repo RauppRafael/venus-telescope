@@ -20,6 +20,10 @@ const main = async () => {
             wallet: process.env.WALLET_ADDRESS,
             notificationEmail: process.env.MAILGUN_NOTIFICATION_EMAIL,
             dangerEmail: process.env.MAILGUN_DANGER_EMAIL,
+            usageDangerLow: process.env.VENUS_USAGE_DANGER_LOW,
+            usageLow: process.env.VENUS_USAGE_LOW,
+            usageHigh: process.env.VENUS_USAGE_HIGH,
+            usageDangerHigh: process.env.VENUS_USAGE_DANGER_HIGH
         })
 
         logger.log(`Current collateral usage is ${ (usage * 100).toFixed(2) }%`)

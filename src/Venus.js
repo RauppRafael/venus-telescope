@@ -11,12 +11,12 @@ class Venus {
         this.throttleSendNotificationEmail = throttle(minute * 60, true, this.sendEmail)
     }
 
-    async handle({ wallet, notificationEmail, dangerEmail }) {
+    async handle({ wallet, notificationEmail, dangerEmail, usageDangerLow, usageLow, usageHigh, usageDangerHigh }) {
         const account = await this.account({ wallet })
         const usage = await this.getBorrowUsage({ account })
 
-        const danger = usage < 0.50 || usage > 0.8
-        const notify = usage < 0.55 || usage > 0.73
+        const danger = usage < usageDangerLow || usage > usageDangerHigh
+        const notify = usage < usageLow || usage > usageHigh
 
         if (danger) {
             this.throttleSendDangerEmail({ usage, to: dangerEmail })
